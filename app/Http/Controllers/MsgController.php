@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Msg;
 use App\Models\none;
 use Illuminate\Http\Request;
 
@@ -12,23 +13,7 @@ class MsgController extends Controller
      */
     public function index()
     {
-        $mmsgs = [
-            [
-                'author' => 'Jane Doe',
-                'message' => 'Just deployed my first Laravel app! 🚀',
-                'time' => '5 minutes ago'
-            ],
-            [
-                'author' => 'John Smith',
-                'message' => 'Laravel makes web development fun again!',
-                'time' => '1 hour ago'
-            ],
-            [
-                'author' => 'Alice Johnson',
-                'message' => 'Working on something cool with Chirper...',
-                'time' => '3 hours ago'
-            ]
-        ];
+        $mmsgs = msg::with('user')->latest()->take(10)->get();
 
         return view('home',['mmsgs'=>$mmsgs]);
     }
